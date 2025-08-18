@@ -33,3 +33,9 @@ code-line-numbers: false
 code-block-font-size: "0.85em"
 ---
 
+## Topics
+
+- No pooling vs complete vs partial pooling
+- Bias-variance trade-offs
+- Shrinkage effects
+
