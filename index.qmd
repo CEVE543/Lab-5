@@ -1,8 +1,16 @@
 ---
-title: "Lab 5"
-subtitle: "Regional Pooling Comparison"
+title: "Lab 5: Regional Pooling Implementation"
+subtitle: "No pooling vs complete vs partial pooling, Bias-variance trade-offs, Shrinkage effects"
 author: CEVE 543 Fall 2025
 date: "2025-09-26"
+type: "lab"
+module: 1
+week: 5
+objectives:
+  - "Implement hierarchical Bayesian models with different pooling strategies"
+  - "Understand bias-variance trade-offs in regional frequency analysis"
+  - "Observe shrinkage effects in partial pooling models"
+ps_connection: "Provides hierarchical Bayesian modeling tools for PS1 Task 5"
 
 engine: julia
 
@@ -12,7 +20,7 @@ format:
     toc-depth: 2
     code-block-bg: "#f8f8f8"
     code-block-border-left: "#e1e4e5"
-    theme: default
+    theme: cosmo
     number-sections: true
     fig-format: svg
   typst:
