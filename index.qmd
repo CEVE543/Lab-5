@@ -41,9 +41,32 @@ code-line-numbers: false
 code-block-font-size: "0.85em"
 ---
 
-## Topics
+## Objectives
 
-- No pooling vs complete vs partial pooling
-- Bias-variance trade-offs
-- Shrinkage effects
+1. Implement hierarchical Bayesian models with different pooling strategies
+1. Understand bias-variance trade-offs in regional frequency analysis
+1. Observe shrinkage effects in partial pooling models
+
+## Before
+
+::: {.callout-important}
+## Instructions
+
+Do this before the lab date so that lab itself can go more smoothly.
+:::
+
+## Background and Reading
+
+<!-- Content will be added here -->
+
+## Tasks
+
+Modify the code section below to address the following tasks.
+
+1. Implement no pooling, complete pooling, and partial pooling models
+1. Compare bias-variance trade-offs across different pooling strategies
+1. Visualize and analyze shrinkage effects in hierarchical models
+1. Assess regional frequency analysis performance with different approaches
+
+## Code
 
