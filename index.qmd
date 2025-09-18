@@ -1,5 +1,5 @@
 ---
-title: "Lab 5: Regional Pooling Implementation"
+title: "CEVE 543 Fall 2025 Lab 5: Regional Pooling Implementation"
 subtitle: "No pooling vs complete vs partial pooling, Bias-variance trade-offs, Shrinkage effects"
 author: CEVE 543 Fall 2025
 date: "2025-09-26"
