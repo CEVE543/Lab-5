@@ -6,6 +6,29 @@ using TidierFiles
 using Distributions
 using Random
 
+function load_or_sample(fname, model; overwrite = false, n_chains = 4, samples_per_chain = 2000, sampler = NUTS(), threading = MCMCThreads(), rng = rng)
+	idata = try
+		@assert !overwrite "Reading from cache disabled by overwrite=true"
+		idata = ArviZ.from_netcdf(fname)
+		@info "Loaded cached samples from $fname"
+		return idata
+	catch
+		chains = sample(
+			rng,
+			model,
+			sampler,
+			threading,
+			Int(ceil(samples_per_chain * n_chains)),
+			n_chains,
+			verbose = false,
+		)
+		idata = ArviZ.from_mcmcchains(chains)
+		ArviZ.to_netcdf(idata, fname)
+		@info "Sampled and cached samples to $fname"
+		return idata
+	end
+end
+
 """
     parse_station_parts(station_number::Int, id, name, state, lat_str, lon_str, elevation, years_of_data::Int=0)
 
@@ -513,5 +536,49 @@ function posterior_bands!(ax, dists::Vector{<:Distribution}, rts; ci=0.90, kwarg
     upper_bound = [q[2] for q in return_level_quantiles]
 
     band!(ax, rts, lower_bound, upper_bound; kwargs...)
+    return ax
+end
+
+"""
+    traceplot!(ax, idata, param_name; kwargs...)
+
+Add a simple traceplot for a parameter to an existing axis.
+
+# Arguments
+- `ax`: The axis to plot on
+- `idata`: ArviZ InferenceData object containing posterior samples
+- `param_name`: Symbol or string name of the parameter to plot
+
+# Keyword Arguments
+- `color`: Line color (defaults to cycling through colors for each chain)
+- `linewidth`: Line width (default: 1.5)
+- `alpha`: Line transparency (default: 0.8)
+
+# Example
+```julia
+fig = Figure()
+ax = Axis(fig[1, 1], xlabel = "Iteration", ylabel = "μ₀")
+traceplot!(ax, idata, :μ₀)
+```
+"""
+function traceplot!(ax, idata, param_name; linewidth = 1.5, alpha = 0.8, kwargs...)
+    param_data = Array(idata.posterior[param_name])
+    n_chains = size(param_data, 2)
+
+    # Plot each chain
+    for chain in 1:n_chains
+        if ndims(param_data) == 2
+            lines!(ax, param_data[:, chain],
+                   color = Cycled(chain), linewidth = linewidth, alpha = alpha; kwargs...)
+        else
+            # Handle scalar parameters (single value across iterations)
+            lines!(ax, param_data,
+                   color = Cycled(chain), linewidth = linewidth, alpha = alpha; kwargs...)
+        end
+    end
+
+    # Add horizontal line at mean for reference
+    hlines!(ax, [mean(param_data)], color = :black, linestyle = :dash, alpha = 0.5)
+
     return ax
 end
