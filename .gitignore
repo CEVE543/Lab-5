@@ -1,3 +1,7 @@
+*.txt
+*.nc
+*.csv
+
 *_files/
 *.html
 *.pdf
